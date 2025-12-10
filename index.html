@@ -1,4 +1,32 @@
 <!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcolatore Stipendio Netto - JavaScript</title>
+
+
+<style>
+body {
+font-family: Arial, sans-serif;
+max-width: 600px;
+margin: 40px auto;
+padding: 20px;
+line-height: 1.5;
+}
+h1 {
+text-align: center;
+}
+.box {
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+}
+label {
+font-weight: bold;
+}
+input {
+width: 100%;
 padding: 8px;
 margin-top: 6px;
 margin-bottom: 12px;
@@ -65,31 +93,6 @@ const addizionali = imponibile_fiscale * 0.016;
 
 
 // Totale tasse
-const tasse = contributi + irpef_tot + addizionali;
-
-
-// Netto
-const netto_annuale = ral - tasse;
-const netto_mensile = netto_annuale / 12;
-
-
-// Mostra risultati
-output.innerHTML = `
-<h3>Risultati</h3>
-<p><strong>Netto annuale:</strong> € ${netto_annuale.toFixed(2)}</p>
-<p><strong>Netto mensile:</strong> € ${netto_mensile.toFixed(2)}</p>
-<p><strong>Tasse totali:</strong> € ${tasse.toFixed(2)}</p>
-<ul>
-<li>Contributi INPS: € ${contributi.toFixed(2)}</li>
-<li>IRPEF: € ${irpef_tot.toFixed(2)}</li>
-<li>Addizionali: € ${addizionali.toFixed(2)}</li>
-</ul>
-`;
-}
-
-
-document.getElementById('calcola_btn').addEventListener('click', calcola);
-</script>
 
 
 </body>
