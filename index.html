@@ -6,9 +6,9 @@
     <title>Calcolatore Netto da RAL</title>
 
     <!-- PyScript -->
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/pyscript.css"/>
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/pyscript.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,6 +60,10 @@
     <div id="output" class="results"></div>
 
     <py-script>
+    <py-config>
+      interpreter:
+        src: https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js
+    </py-config>
 from pyscript import Element
 
 # Calcolo contributi + IRPEF a scaglioni + addizionali
