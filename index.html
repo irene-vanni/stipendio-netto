@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calcolatore Netto da RAL</title>
+
+    <!-- PyScript -->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+        }
+        .box {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .results {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Calcolatore Stipendio Netto</h1>
+    <div class="box">
+        <label for="ral">Inserisci la RAL (€):</label>
+        <input type="number" id="ral" />
+        <button py-click="calcola()">Calcola</button>
+    </div>
+
+    <div id="output" class="results"></div>
+
+    <py-script>
+from pyscript import Element
+
+# Calcolo contributi + IRPEF a scaglioni + addizionali
+
+def calcola():
+    ral_el = Element("ral")
+    output = Element("output")
+
+    try:
+        ral = float(ral_el.value)
+    except:
+        output.write("<p style='color:red'>Inserisci un valore valido.</p>")
+        return
+
+    # 1) Contributi dipendente (stima semplificata)
+    contributi = ral * 0.0919
+
+    imponibile_fiscale = ral - contributi
+
+    # 2) IRPEF per scaglioni
+    def irpef(imponibile):
+        tax = 0
+        if imponibile <= 28000:
+            tax = imponibile * 0.23
+        elif imponibile <= 50000:
+            tax = 28000 * 0.23 + (imponibile - 28000) * 0.35
+        else:
+            tax = 28000 * 0.23 + (50000 - 28000) * 0.35 + (imponibile - 50000) * 0.43
+        return tax
+
+    irpef_tot = irpef(imponibile_fiscale)
+
+    # 3) Addizionali (stima unica Milano)
+    addizionali = imponibile_fiscale * 0.016
+
+    # 4) Totale tasse
+    tasse = contributi + irpef_tot + addizionali
+
+    # 5) Netto
+    netto_annuale = ral - tasse
+    netto_mensile = netto_annuale / 12
+
+    output_html = f"""
+    <h3>Risultati</h3>
+    <p><strong>Netto annuale:</strong> € {netto_annuale:,.2f}</p>
+    <p><strong>Netto mensile:</strong> € {netto_mensile:,.2f}</p>
+    <p><strong>Tasse totali:</strong> € {tasse:,.2f}</p>
+    <hr>
+    <p><strong>Dettaglio:</strong></p>
+    <ul>
+        <li>Contributi INPS: € {contributi:,.2f}</li>
+        <li>IRPEF: € {irpef_tot:,.2f}</li>
+        <li>Addizionali: € {addizionali:,.2f}</li>
+    </ul>
+    """
+
+    output.write(output_html)
+    </py-script>
+</body>
+</html>
