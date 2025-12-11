@@ -6,44 +6,80 @@
     <title>Calcolatore Stipendio Netto</title>
 
     <!-- Stile semplice -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            line-height: 1.5;
-        }
-        h1 {
-            text-align: center;
-        }
-        .box {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        label {
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            margin-bottom: 12px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .results {
-            margin-top: 20px;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-        }
-    </style>
+
+<style>
+  /* 1) Box model coerente: la width include padding e border */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    line-height: 1.5;
+  }
+
+  h1 { text-align: center; }
+
+  .box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  label { font-weight: bold; }
+
+  /* 2) Stili uniformi per input e button */
+  .box input,
+  .box button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font: inherit;            /* stessa famiglia e size del body */
+    line-height: 1.2;         /* uniforme su entrambi */
+    border: 1px solid #ccc;   /* stesso bordo: evita differenze visive */
+    border-radius: 6px;       /* stesso raggio */
+  }
+
+  /* 3) Rimuovi appearance nativa degli input (specie per type=number) */
+  .box input {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 6px 0 12px 0;     /* come volevi: spazio sopra e sotto */
+    background: #fff;
+    color: #000;
+  }
+
+  /* Rimuovi le freccette dello spinner su Chrome/Safari */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Rimuovi spinner su Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  /* 4) Stile del bottone: stesso box, diverso bg */
+  .box button {
+    cursor: pointer;
+    background: #0a5;       /* esempio colore: verde */
+    color: #fff;
+    border-color: #0a5;     /* bordo coerente col background */
+  }
+
+  .results {
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+  }
+</style>
 
     <!-- Brython -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"></script>
